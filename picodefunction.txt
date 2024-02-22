@@ -1,0 +1,48 @@
+def square(sidelength):
+    #creates the square given the sidelength
+    squarex= np.array([0,sidelength,sidelength,0,0])
+    squarey= np.array([0,0,sidelength,sidelength,0])
+    return squarex,squarey
+    
+    #creates the circle given the radius and uses sidelength to center the circle
+def circle(radius,sidelength):
+    theta = np.linspace(0,2*np.pi,50)
+    circlex = radius*np.cos(theta)+sidelength/2
+    circley = radius*np.sin(theta)+sidelength/2
+    return circlex,circley
+    # creates random points on the graph
+def random(sidelength,points):
+    randomx = np.random.uniform(0,sidelength,points)
+    randomy = np.random.uniform(0,sidelength,points)
+    return randomx,randomy
+    # method of finding if a point is within the circle
+def pointsinsidecircle(randomx,randomy,sidelength,radius):
+    insidecircle = np.sqrt((randomx-sidelength/2)**2+(randomy-sidelength/2)**2)<= radius
+    return insidecircle
+    
+    #creating the graph
+def plot(squarex,squarey,circlex,circley,randomx,randomy):
+    plt.figure(figsize=(8,8))
+    plt.plot(squarex,squarey,label='Square',color='r')
+    plt.plot(circlex,circley,label='Circle',color='g')
+    plt.scatter(randomx,randomy,label="Random Points",color='b')
+    plt.title("Pi Code")
+    plt.xlabel('x-axis')
+    plt.ylabel('y-axis')
+    plt.legend()
+    plt.show()
+
+
+    #solve for pi
+def piestimate(insidecircle,points): 
+    estimatepi= 4*(np.sum(insidecircle)/points)
+    print(estimatepi)
+
+def picode(sidelength,radius,points): #creates a function that takes into account the sidelength, radius, and # of points
+    squarex,squarey = square(sidelength)
+    circlex,circley = circle(radius,sidelength)
+    randomx,randomy = random(sidelength,points)
+    insidecircle = pointsinsidecircle(randomx,randomy,sidelength,radius)
+    plot(squarex,squarey,circlex,circley,randomx,randomy)
+    estimatepi= piestimate(insidecircle,points)
+    

@@ -1,0 +1,24 @@
+
+def fit_and_plot_line(x, y, dy):
+    # calculate the weight of the data points
+    weights = 1.0 / dy
+    
+    # fit a line using the uncertainties
+    coefficients, _ = np.polyfit(x, y, 1, w=weights, cov=True)
+    slope, intercept = coefficients
+    
+    # create a line
+    linefit = np.poly1d(coefficients)
+    
+    #plot the data with error bars
+    plt.errorbar(x, y, yerr=dy, fmt='o', label='Data with Uncertainties')
+    
+    #plot the line
+    xrange = np.linspace(min(x), max(x))
+    plt.plot(xrange, linefit(xrange), color='red', label='Weighted Fit')
+    plt.xlabel("X values")
+    plt.ylabel("Y values")
+    plt.legend()
+    plt.show()
+
+
